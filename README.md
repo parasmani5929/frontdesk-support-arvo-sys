@@ -101,8 +101,8 @@ When a ticket is escalated to `URGENT`:
 
 1. **Clone the repository:**
    ```bash
-   git clone <repository-url>
-   cd iNav
+   git clone https://github.com/parasmani5929/frontdesk-support-platform.git
+   cd frontdesk-support-platform
    ```
 
 2. **Install dependencies:**
