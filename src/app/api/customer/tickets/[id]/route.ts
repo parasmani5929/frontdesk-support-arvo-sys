@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * Customer Ticket View Endpoint (Strictly Enforces Problem INC-0304 Resolution)
  * "Private team notes must never be shown to a customer. Not on a screen.

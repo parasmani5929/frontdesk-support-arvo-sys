@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { AlertCircle, CheckCircle2, Clock, PauseCircle, ShieldAlert, TrendingDown } from 'lucide-react';
+import { safeJsonFetch } from '@/lib/api-client';
 
 interface AnalyticsData {
   summary: {
@@ -32,16 +33,12 @@ export function AnalyticsView() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/analytics')
-      .then((res) => res.json())
-      .then((resData) => {
-        setData(resData);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error('Failed to load analytics', err);
-        setLoading(false);
-      });
+    safeJsonFetch<AnalyticsData>('/api/analytics').then((result) => {
+      if (result.ok && result.data) {
+        setData(result.data);
+      }
+      setLoading(false);
+    });
   }, []);
 
   if (loading) {

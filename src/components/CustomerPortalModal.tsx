@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { CustomerTicketView, Ticket } from '@/types';
+import { safeJsonFetch } from '@/lib/api-client';
 import {
   HelpCircle,
   X,
@@ -38,18 +39,14 @@ export function CustomerPortal({ tickets, onClose, onRefreshAll }: CustomerPorta
   async function loadCustomerView(id: string) {
     setLoading(true);
     setStatusMessage(null);
-    try {
-      const res = await fetch(`/api/customer/tickets/${id}`);
-      const data = await res.json();
-      if (res.ok) {
-        setCustomerTicket(data.ticket);
-      } else {
-        setStatusMessage(data.error || 'Failed to fetch customer ticket view');
-      }
-    } catch (err: any) {
-      setStatusMessage(err.message || 'Error loading view');
-    } finally {
-      setLoading(false);
+
+    const result = await safeJsonFetch<{ ticket: CustomerTicketView }>(`/api/customer/tickets/${id}`);
+    setLoading(false);
+
+    if (result.ok && result.data) {
+      setCustomerTicket(result.data.ticket);
+    } else {
+      setStatusMessage(result.error || 'Failed to fetch customer ticket view');
     }
   }
 
@@ -58,29 +55,28 @@ export function CustomerPortal({ tickets, onClose, onRefreshAll }: CustomerPorta
     if (!replyContent.trim() || !customerTicket) return;
 
     setLoading(true);
-    try {
-      const res = await fetch(`/api/customer/tickets/${customerTicket.id}/reply`, {
+
+    const result = await safeJsonFetch<{ ticket: CustomerTicketView }>(
+      `/api/customer/tickets/${customerTicket.id}/reply`,
+      {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           content: replyContent.trim(),
           customerName: customerTicket.customerName,
         }),
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        setCustomerTicket(data.ticket);
-        setReplyContent('');
-        setStatusMessage('Your reply was submitted. Support agents have been notified and SLA timer resumed!');
-        onRefreshAll();
-      } else {
-        setStatusMessage(data.error || 'Failed to post reply');
       }
-    } catch (err: any) {
-      setStatusMessage(err.message || 'Error posting reply');
-    } finally {
-      setLoading(false);
+    );
+
+    setLoading(false);
+
+    if (result.ok && result.data) {
+      setCustomerTicket(result.data.ticket);
+      setReplyContent('');
+      setStatusMessage('Your reply was submitted. Support agents have been notified and SLA timer resumed!');
+      onRefreshAll();
+    } else {
+      setStatusMessage(result.error || 'Failed to post reply');
     }
   }
 
@@ -89,30 +85,29 @@ export function CustomerPortal({ tickets, onClose, onRefreshAll }: CustomerPorta
     if (!reopenReason.trim() || !customerTicket) return;
 
     setLoading(true);
-    try {
-      const res = await fetch(`/api/customer/tickets/${customerTicket.id}/reopen`, {
+
+    const result = await safeJsonFetch<{ ticket: CustomerTicketView }>(
+      `/api/customer/tickets/${customerTicket.id}/reopen`,
+      {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           reason: reopenReason.trim(),
           customerName: customerTicket.customerName,
         }),
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        setCustomerTicket(data.ticket);
-        setReopenReason('');
-        setShowReopenBox(false);
-        setStatusMessage('Ticket reopened successfully. Our agents will follow up promptly.');
-        onRefreshAll();
-      } else {
-        setStatusMessage(data.error || 'Failed to reopen ticket');
       }
-    } catch (err: any) {
-      setStatusMessage(err.message || 'Error reopening ticket');
-    } finally {
-      setLoading(false);
+    );
+
+    setLoading(false);
+
+    if (result.ok && result.data) {
+      setCustomerTicket(result.data.ticket);
+      setReopenReason('');
+      setShowReopenBox(false);
+      setStatusMessage('Ticket reopened successfully. Our agents will follow up promptly.');
+      onRefreshAll();
+    } else {
+      setStatusMessage(result.error || 'Failed to reopen ticket');
     }
   }
 

@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
 import { Agent, AuditEvent, CustomerTicketView, Message, Priority, Ticket, TicketStatus } from '../types';
 import {
   initializeSLAMetrics,
@@ -11,8 +12,10 @@ import {
   qualifiesForAutoClose,
 } from './sla-engine';
 
-const DATA_DIR = path.join(process.cwd(), 'data');
-const DB_FILE = path.join(DATA_DIR, 'db.json');
+// In serverless environments (Vercel, AWS Lambda), process.cwd() is read-only.
+// os.tmpdir() (/tmp) is guaranteed writable.
+const DATA_DIR = process.env.VERCEL ? os.tmpdir() : path.join(process.cwd(), 'data');
+const DB_FILE = path.join(DATA_DIR, 'frontdesk-db.json');
 
 // The 9 Support Agents of Arvo Systems
 export const ARVO_AGENTS: Agent[] = [
@@ -35,8 +38,13 @@ export interface DatabaseSchema {
 }
 
 function ensureDataDir(): void {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
+  try {
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+  } catch (err) {
+    // In restricted / read-only environments (e.g. Vercel), disk writes may fail.
+    // The system continues seamlessly in-memory.
   }
 }
 
@@ -415,16 +423,19 @@ class Database {
   private data: DatabaseSchema;
 
   constructor() {
-    ensureDataDir();
-    if (fs.existsSync(DB_FILE)) {
-      try {
+    let loaded: DatabaseSchema | null = null;
+    try {
+      ensureDataDir();
+      if (fs.existsSync(DB_FILE)) {
         const raw = fs.readFileSync(DB_FILE, 'utf-8');
-        this.data = JSON.parse(raw);
-      } catch (err) {
-        console.error('Failed to parse database file, reinitializing seeds...', err);
-        this.data = createInitialSeedData();
-        this.save();
+        loaded = JSON.parse(raw);
       }
+    } catch (err) {
+      // Fallback to fresh seed data if reading fails
+    }
+
+    if (loaded && Array.isArray(loaded.tickets) && loaded.tickets.length > 0) {
+      this.data = loaded;
     } else {
       this.data = createInitialSeedData();
       this.save();
@@ -432,8 +443,12 @@ class Database {
   }
 
   private save(): void {
-    ensureDataDir();
-    fs.writeFileSync(DB_FILE, JSON.stringify(this.data, null, 2), 'utf-8');
+    try {
+      ensureDataDir();
+      fs.writeFileSync(DB_FILE, JSON.stringify(this.data, null, 2), 'utf-8');
+    } catch (err) {
+      // In serverless / read-only filesystem environments, in-memory state is preserved
+    }
   }
 
   // --- AGENTS ---
@@ -897,5 +912,7 @@ class Database {
   }
 }
 
-// Singleton database instance
-export const db = new Database();
+// Singleton database instance preserved across serverless invocations
+const globalForDb = globalThis as unknown as { dbInstance?: Database };
+export const db = globalForDb.dbInstance ?? new Database();
+globalForDb.dbInstance = db;

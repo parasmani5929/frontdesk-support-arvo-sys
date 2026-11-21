@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Agent, Ticket } from '@/types';
+import { safeJsonFetch } from '@/lib/api-client';
 import { Header } from '@/components/Header';
 import { StatCard } from '@/components/StatCard';
 import { TicketList } from '@/components/TicketList';
@@ -36,36 +37,26 @@ export default function Home() {
   }, []);
 
   async function fetchAgents() {
-    try {
-      const res = await fetch('/api/agents');
-      const data = await res.json();
-      if (res.ok && data.agents) {
-        setAgents(data.agents);
-        if (!currentAgent && data.agents.length > 0) {
-          setCurrentAgent(data.agents[0]); // Default to Meera Patel (Support Lead)
-        }
+    const result = await safeJsonFetch<{ agents: Agent[] }>('/api/agents');
+    if (result.ok && result.data?.agents) {
+      setAgents(result.data.agents);
+      if (!currentAgent && result.data.agents.length > 0) {
+        setCurrentAgent(result.data.agents[0]); // Default to Meera Patel (Support Lead)
       }
-    } catch (err) {
-      console.error('Failed to load agents', err);
     }
   }
 
   async function fetchTickets() {
     setIsLoading(true);
-    try {
-      const res = await fetch('/api/tickets');
-      const data = await res.json();
-      if (res.ok && data.tickets) {
-        setTickets(data.tickets);
-        // Default select first ticket if none selected
-        if (!selectedTicketId && data.tickets.length > 0) {
-          setSelectedTicketId(data.tickets[0].id);
-        }
+    const result = await safeJsonFetch<{ tickets: Ticket[] }>('/api/tickets');
+    setIsLoading(false);
+
+    if (result.ok && result.data?.tickets) {
+      setTickets(result.data.tickets);
+      // Default select first ticket if none selected
+      if (!selectedTicketId && result.data.tickets.length > 0) {
+        setSelectedTicketId(result.data.tickets[0].id);
       }
-    } catch (err) {
-      console.error('Failed to load tickets', err);
-    } finally {
-      setIsLoading(false);
     }
   }
 

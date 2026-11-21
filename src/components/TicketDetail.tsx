@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Agent, AuditEvent, Message, Priority, Ticket, TicketStatus } from '@/types';
+import { safeJsonFetch } from '@/lib/api-client';
 import {
   AlertTriangle,
   CheckCircle2,
@@ -42,26 +43,21 @@ export function TicketDetail({
     setClaimError(null);
     setIsSubmitting(true);
 
-    try {
-      const res = await fetch(`/api/tickets/${ticket.id}/claim`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          agentId: currentAgent.id,
-          version: ticket.version,
-        }),
-      });
+    const result = await safeJsonFetch<{ ticket: Ticket }>(`/api/tickets/${ticket.id}/claim`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        agentId: currentAgent.id,
+        version: ticket.version,
+      }),
+    });
 
-      const data = await res.json();
-      if (!res.ok) {
-        setClaimError(data.error || 'Failed to claim ticket.');
-      } else {
-        onTicketUpdated(data.ticket);
-      }
-    } catch (err: any) {
-      setClaimError(err.message || 'Network error claiming ticket');
-    } finally {
-      setIsSubmitting(false);
+    setIsSubmitting(false);
+
+    if (!result.ok || !result.data) {
+      setClaimError(result.error || 'Failed to claim ticket.');
+    } else {
+      onTicketUpdated(result.data.ticket);
     }
   }
 
@@ -69,24 +65,23 @@ export function TicketDetail({
   async function handleStatusChange(newStatus: TicketStatus) {
     if (!currentAgent) return;
     setIsSubmitting(true);
-    try {
-      const res = await fetch(`/api/tickets/${ticket.id}/status`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          status: newStatus,
-          actorName: currentAgent.name,
-          actorId: currentAgent.id,
-        }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        onTicketUpdated(data.ticket);
-      }
-    } catch (err) {
-      console.error('Status update failed', err);
-    } finally {
-      setIsSubmitting(false);
+
+    const result = await safeJsonFetch<{ ticket: Ticket }>(`/api/tickets/${ticket.id}/status`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        status: newStatus,
+        actorName: currentAgent.name,
+        actorId: currentAgent.id,
+      }),
+    });
+
+    setIsSubmitting(false);
+
+    if (result.ok && result.data) {
+      onTicketUpdated(result.data.ticket);
+    } else if (result.error) {
+      alert(result.error);
     }
   }
 
@@ -105,24 +100,23 @@ export function TicketDetail({
     }
 
     setIsSubmitting(true);
-    try {
-      const res = await fetch(`/api/tickets/${ticket.id}/priority`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          priority: newPriority,
-          actorName: currentAgent.name,
-          actorId: currentAgent.id,
-        }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        onTicketUpdated(data.ticket);
-      }
-    } catch (err) {
-      console.error('Priority update failed', err);
-    } finally {
-      setIsSubmitting(false);
+
+    const result = await safeJsonFetch<{ ticket: Ticket }>(`/api/tickets/${ticket.id}/priority`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        priority: newPriority,
+        actorName: currentAgent.name,
+        actorId: currentAgent.id,
+      }),
+    });
+
+    setIsSubmitting(false);
+
+    if (result.ok && result.data) {
+      onTicketUpdated(result.data.ticket);
+    } else if (result.error) {
+      alert(result.error);
     }
   }
 
@@ -132,30 +126,26 @@ export function TicketDetail({
     if (!messageContent.trim() || !currentAgent) return;
 
     setIsSubmitting(true);
-    try {
-      const res = await fetch(`/api/tickets/${ticket.id}/reply`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          senderType: 'AGENT',
-          senderId: currentAgent.id,
-          senderName: currentAgent.name,
-          type: composerType,
-          content: messageContent.trim(),
-        }),
-      });
 
-      const data = await res.json();
-      if (res.ok) {
-        setMessageContent('');
-        onTicketUpdated(data.ticket);
-      } else {
-        alert(data.error || 'Failed to post message');
-      }
-    } catch (err) {
-      console.error('Failed to post message', err);
-    } finally {
-      setIsSubmitting(false);
+    const result = await safeJsonFetch<{ ticket: Ticket }>(`/api/tickets/${ticket.id}/reply`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        senderType: 'AGENT',
+        senderId: currentAgent.id,
+        senderName: currentAgent.name,
+        type: composerType,
+        content: messageContent.trim(),
+      }),
+    });
+
+    setIsSubmitting(false);
+
+    if (result.ok && result.data) {
+      setMessageContent('');
+      onTicketUpdated(result.data.ticket);
+    } else {
+      alert(result.error || 'Failed to post message');
     }
   }
 

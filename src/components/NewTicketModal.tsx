@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Priority, Ticket } from '@/types';
 import { X, Flame, AlertCircle } from 'lucide-react';
+import { safeJsonFetch } from '@/lib/api-client';
 
 interface NewTicketModalProps {
   isOpen: boolean;
@@ -27,37 +28,32 @@ export function NewTicketModal({ isOpen, onClose, onTicketCreated }: NewTicketMo
     setError(null);
     setIsSubmitting(true);
 
-    try {
-      const res = await fetch('/api/tickets', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title,
-          description,
-          priority,
-          customerName,
-          customerEmail,
-          companyName,
-        }),
-      });
+    const result = await safeJsonFetch<{ ticket: Ticket }>('/api/tickets', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title,
+        description,
+        priority,
+        customerName,
+        customerEmail,
+        companyName,
+      }),
+    });
 
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || 'Failed to create ticket');
-      } else {
-        onTicketCreated(data.ticket);
-        onClose();
-        // Reset form
-        setTitle('');
-        setDescription('');
-        setCustomerName('');
-        setCustomerEmail('');
-        setCompanyName('');
-      }
-    } catch (err: any) {
-      setError(err.message || 'Network error');
-    } finally {
-      setIsSubmitting(false);
+    setIsSubmitting(false);
+
+    if (!result.ok || !result.data) {
+      setError(result.error || 'Failed to create ticket');
+    } else {
+      onTicketCreated(result.data.ticket);
+      onClose();
+      // Reset form
+      setTitle('');
+      setDescription('');
+      setCustomerName('');
+      setCustomerEmail('');
+      setCompanyName('');
     }
   }
 
