@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
+import seedsData from './seeds.json';
 import { Agent, AuditEvent, CustomerTicketView, Message, Priority, Ticket, TicketStatus } from '../types';
 import {
   initializeSLAMetrics,
@@ -16,6 +17,7 @@ import {
 // os.tmpdir() (/tmp) is guaranteed writable.
 const DATA_DIR = process.env.VERCEL ? os.tmpdir() : path.join(process.cwd(), 'data');
 const DB_FILE = path.join(DATA_DIR, 'frontdesk-db.json');
+const SQLITE_FILE = path.join(DATA_DIR, 'frontdesk.sqlite');
 
 // The 9 Support Agents of Arvo Systems
 export const ARVO_AGENTS: Agent[] = [
@@ -49,378 +51,16 @@ function ensureDataDir(): void {
 }
 
 /**
- * Generates initial rich seed tickets depicting realistic real-world situations,
- * including the 3 incidents from Section 4 of the problem description.
+ * Loads default rich seed tickets depicting realistic real-world situations,
+ * including 15 tickets (11 active, 3 late, 1 waiting on customer, 5 urgent).
  */
 function createInitialSeedData(): DatabaseSchema {
-  const now = new Date();
-  
-  // Incident 4.1 from October 14:
-  // INC-0291: Two agents clicked take ticket concurrently
-  const inc291Date = '2026-10-14T10:15:00.000Z';
-  const inc291Ticket: Ticket = {
-    id: 'inc-0291',
-    ticketNumber: 'INC-0291',
-    title: 'SSO Login failing for Enterprise workspace',
-    description: 'Our users cannot log in via Okta SAML. Getting 500 error code on callback.',
-    priority: 'URGENT',
-    status: 'IN_PROGRESS',
-    customerName: 'Fintech Cloud Corp',
-    customerEmail: 'it-sec@fintechcloud.com',
-    companyName: 'Fintech Cloud Corp',
-    assignedToId: 'agent-2',
-    assignedToName: 'Alice Chen',
-    version: 2,
-    createdAt: inc291Date,
-    updatedAt: '2026-10-14T10:20:00.000Z',
-    sla: {
-      ...initializeSLAMetrics('URGENT', new Date(inc291Date)),
-      firstRespondedAt: '2026-10-14T10:20:00.000Z',
-    },
-  };
-
-  const inc291Messages: Message[] = [
-    {
-      id: 'm-291-1',
-      ticketId: 'inc-0291',
-      senderType: 'AGENT',
-      senderId: 'agent-2',
-      senderName: 'Alice Chen',
-      type: 'PUBLIC_REPLY',
-      content: 'Hello, we are investigating the Okta SAML certificate rotation right now. Will update shortly.',
-      createdAt: '2026-10-14T10:20:00.000Z',
-    },
-    {
-      id: 'm-291-2',
-      ticketId: 'inc-0291',
-      senderType: 'AGENT',
-      senderId: 'agent-2',
-      senderName: 'Alice Chen',
-      type: 'INTERNAL_NOTE',
-      content: 'Note for Meera: Checked the IdP metadata XML, cert expired at midnight. Updating keystore.',
-      createdAt: '2026-10-14T10:25:00.000Z',
-    },
-  ];
-
-  const inc291Audit: AuditEvent[] = [
-    {
-      id: 'aud-291-1',
-      ticketId: 'inc-0291',
-      action: 'TICKET_CREATED',
-      actorType: 'CUSTOMER',
-      actorName: 'Fintech Cloud Corp',
-      details: { priority: 'URGENT' },
-      createdAt: inc291Date,
-    },
-    {
-      id: 'aud-291-2',
-      ticketId: 'inc-0291',
-      action: 'ASSIGNED',
-      actorType: 'AGENT',
-      actorId: 'agent-2',
-      actorName: 'Alice Chen',
-      details: { assignedTo: 'Alice Chen', note: 'Claimed via Frontdesk Concurrency Lock' },
-      createdAt: '2026-10-14T10:18:00.000Z',
-    },
-    {
-      id: 'aud-291-3',
-      ticketId: 'inc-0291',
-      action: 'PUBLIC_REPLY_SENT',
-      actorType: 'AGENT',
-      actorId: 'agent-2',
-      actorName: 'Alice Chen',
-      details: { replyLength: 95 },
-      createdAt: '2026-10-14T10:20:00.000Z',
-    },
-    {
-      id: 'aud-291-4',
-      ticketId: 'inc-0291',
-      action: 'INTERNAL_NOTE_ADDED',
-      actorType: 'AGENT',
-      actorId: 'agent-2',
-      actorName: 'Alice Chen',
-      details: { isInternal: true },
-      createdAt: '2026-10-14T10:25:00.000Z',
-    },
-  ];
-
-  // Incident 4.2 from October 22:
-  // INC-0304: Private note handling demonstration
-  const inc304Date = '2026-10-22T14:00:00.000Z';
-  const inc304Ticket: Ticket = {
-    id: 'inc-0304',
-    ticketNumber: 'INC-0304',
-    title: 'Custom export formatting request',
-    description: 'We need CSV reports in European comma-separated format with specific date layout.',
-    priority: 'MEDIUM',
-    status: 'IN_PROGRESS',
-    customerName: 'Global Logistics KG',
-    customerEmail: 'klaus@globallogistics.de',
-    companyName: 'Global Logistics KG',
-    assignedToId: 'agent-3',
-    assignedToName: 'Bob Miller',
-    version: 2,
-    createdAt: inc304Date,
-    updatedAt: '2026-10-22T14:30:00.000Z',
-    sla: {
-      ...initializeSLAMetrics('MEDIUM', new Date(inc304Date)),
-      firstRespondedAt: '2026-10-22T14:30:00.000Z',
-    },
-  };
-
-  const inc304Messages: Message[] = [
-    {
-      id: 'm-304-1',
-      ticketId: 'inc-0304',
-      senderType: 'AGENT',
-      senderId: 'agent-3',
-      senderName: 'Bob Miller',
-      type: 'INTERNAL_NOTE',
-      content: 'CONFIDENTIAL TEAM NOTE: Customer is threatening churn if not resolved by Friday. Escalated to Meera and engineering team.',
-      createdAt: '2026-10-22T14:15:00.000Z',
-    },
-    {
-      id: 'm-304-2',
-      ticketId: 'inc-0304',
-      senderType: 'AGENT',
-      senderId: 'agent-3',
-      senderName: 'Bob Miller',
-      type: 'PUBLIC_REPLY',
-      content: 'Hello Klaus, thank you for reaching out. We have queued the custom locale formatter for our upcoming sprint and will deliver the patch this week.',
-      createdAt: '2026-10-22T14:30:00.000Z',
-    },
-  ];
-
-  const inc304Audit: AuditEvent[] = [
-    {
-      id: 'aud-304-1',
-      ticketId: 'inc-0304',
-      action: 'TICKET_CREATED',
-      actorType: 'CUSTOMER',
-      actorName: 'Global Logistics KG',
-      details: { priority: 'MEDIUM' },
-      createdAt: inc304Date,
-    },
-    {
-      id: 'aud-304-2',
-      ticketId: 'inc-0304',
-      action: 'ASSIGNED',
-      actorType: 'AGENT',
-      actorId: 'agent-3',
-      actorName: 'Bob Miller',
-      details: { assignedTo: 'Bob Miller' },
-      createdAt: '2026-10-22T14:10:00.000Z',
-    },
-    {
-      id: 'aud-304-3',
-      ticketId: 'inc-0304',
-      action: 'INTERNAL_NOTE_ADDED',
-      actorType: 'AGENT',
-      actorId: 'agent-3',
-      actorName: 'Bob Miller',
-      details: { isInternal: true },
-      createdAt: '2026-10-22T14:15:00.000Z',
-    },
-    {
-      id: 'aud-304-4',
-      ticketId: 'inc-0304',
-      action: 'PUBLIC_REPLY_SENT',
-      actorType: 'AGENT',
-      actorId: 'agent-3',
-      actorName: 'Bob Miller',
-      details: { replyLength: 145 },
-      createdAt: '2026-10-22T14:30:00.000Z',
-    },
-  ];
-
-  // Incident 4.3 from November 04:
-  // INC-0318: Dispute solved by immutable audit log
-  const inc318Date = '2026-11-04T16:00:00.000Z';
-  const inc318Ticket: Ticket = {
-    id: 'inc-0318',
-    ticketNumber: 'INC-0318',
-    title: 'Webhook deliveries timing out intermittently',
-    description: 'Webhooks to our production server timed out between 3:45 PM and 4:00 PM.',
-    priority: 'MEDIUM',
-    status: 'DONE',
-    customerName: 'Apex Data Inc',
-    customerEmail: 'ops@apexdata.io',
-    companyName: 'Apex Data Inc',
-    assignedToId: 'agent-1',
-    assignedToName: 'Meera Patel',
-    version: 3,
-    createdAt: inc318Date,
-    updatedAt: '2026-11-04T16:40:00.000Z',
-    resolvedAt: '2026-11-04T16:40:00.000Z',
-    sla: {
-      ...initializeSLAMetrics('MEDIUM', new Date(inc318Date)),
-      firstRespondedAt: '2026-11-04T16:40:00.000Z',
-      resolvedAt: '2026-11-04T16:40:00.000Z',
-    },
-  };
-
-  const inc318Messages: Message[] = [
-    {
-      id: 'm-318-1',
-      ticketId: 'inc-0318',
-      senderType: 'AGENT',
-      senderId: 'agent-1',
-      senderName: 'Meera Patel',
-      type: 'PUBLIC_REPLY',
-      content: 'Confirmed webhook queue backlog cleared at 16:38 UTC. All pending events redelivered successfully.',
-      createdAt: '2026-11-04T16:40:00.000Z',
-    },
-  ];
-
-  const inc318Audit: AuditEvent[] = [
-    {
-      id: 'aud-318-1',
-      ticketId: 'inc-0318',
-      action: 'TICKET_CREATED',
-      actorType: 'CUSTOMER',
-      actorName: 'Apex Data Inc',
-      details: { priority: 'MEDIUM' },
-      createdAt: inc318Date,
-    },
-    {
-      id: 'aud-318-2',
-      ticketId: 'inc-0318',
-      action: 'ASSIGNED',
-      actorType: 'AGENT',
-      actorId: 'agent-1',
-      actorName: 'Meera Patel',
-      details: { assignedTo: 'Meera Patel' },
-      createdAt: '2026-11-04T16:05:00.000Z',
-    },
-    {
-      id: 'aud-318-3',
-      ticketId: 'inc-0318',
-      action: 'PUBLIC_REPLY_SENT',
-      actorType: 'AGENT',
-      actorId: 'agent-1',
-      actorName: 'Meera Patel',
-      details: { responseTimeMinutes: 40, verifiedTimestamp: '2026-11-04T16:40:00.000Z' },
-      createdAt: '2026-11-04T16:40:00.000Z',
-    },
-    {
-      id: 'aud-318-4',
-      ticketId: 'inc-0318',
-      action: 'STATUS_CHANGED',
-      actorType: 'AGENT',
-      actorId: 'agent-1',
-      actorName: 'Meera Patel',
-      details: { oldStatus: 'IN_PROGRESS', newStatus: 'DONE' },
-      createdAt: '2026-11-04T16:40:00.000Z',
-    },
-  ];
-
-  // Active Demonstrator 1: Arrived Friday 6:00 PM (Section 3 rule: Not late on Sunday!)
-  // Friday Nov 20, 2026 18:00
-  const fri6pm = new Date('2026-11-20T18:00:00.000Z');
-  const friTicket: Ticket = {
-    id: 'inc-0322',
-    ticketNumber: 'INC-0322',
-    title: 'Payment gateway returning 402 on checkout',
-    description: 'Customers report payment decline during checkout step. Need urgent review.',
-    priority: 'URGENT',
-    status: 'OPEN',
-    customerName: 'QuickKart Online',
-    customerEmail: 'support@quickkart.com',
-    companyName: 'QuickKart Online',
-    version: 1,
-    createdAt: fri6pm.toISOString(),
-    updatedAt: fri6pm.toISOString(),
-    sla: initializeSLAMetrics('URGENT', fri6pm),
-  };
-
-  // Active Demonstrator 2: Waiting on Customer (SLA paused!)
-  const waitingTicketDate = new Date(now.getTime() - 4 * 60 * 60 * 1000);
-  const waitingTicket: Ticket = {
-    id: 'inc-0323',
-    ticketNumber: 'INC-0323',
-    title: 'Need API rate limit increase for holiday sale',
-    description: 'We are expecting a 3x traffic spike next week.',
-    priority: 'SMALL',
-    status: 'WAITING_ON_CUSTOMER',
-    customerName: 'Acme Retail',
-    customerEmail: 'infra@acmeretail.com',
-    companyName: 'Acme Retail',
-    assignedToId: 'agent-4',
-    assignedToName: 'Charlie Davis',
-    version: 2,
-    createdAt: waitingTicketDate.toISOString(),
-    updatedAt: now.toISOString(),
-    sla: {
-      ...initializeSLAMetrics('SMALL', waitingTicketDate),
-      isPaused: true,
-      lastPausedAt: new Date(now.getTime() - 2 * 60 * 60 * 1000).toISOString(),
-      firstRespondedAt: new Date(now.getTime() - 2 * 60 * 60 * 1000).toISOString(),
-    },
-  };
-
-  const waitingMessages: Message[] = [
-    {
-      id: 'm-323-1',
-      ticketId: 'inc-0323',
-      senderType: 'AGENT',
-      senderId: 'agent-4',
-      senderName: 'Charlie Davis',
-      type: 'PUBLIC_REPLY',
-      content: 'Could you please confirm the specific IP CIDR ranges and projected requests-per-second requirement?',
-      createdAt: new Date(now.getTime() - 2 * 60 * 60 * 1000).toISOString(),
-    },
-  ];
-
-  // Active Demonstrator 3: Overdue Ticket (Breached SLA)
-  // Demonstrates manager view requirement: "Managers asked which problems were late and why"
-  const lateTicketDate = new Date(now.getTime() - 48 * 60 * 60 * 1000);
-  const lateTicket: Ticket = {
-    id: 'inc-0324',
-    ticketNumber: 'INC-0324',
-    title: 'Search indexing job stuck in running loop',
-    description: 'Product catalog search results are outdated. Rebuild job has been hanging.',
-    priority: 'MEDIUM',
-    status: 'IN_PROGRESS',
-    customerName: 'MegaStore India',
-    customerEmail: 'devops@megastore.in',
-    companyName: 'MegaStore India',
-    assignedToId: 'agent-5',
-    assignedToName: 'David Kumar',
-    version: 2,
-    createdAt: lateTicketDate.toISOString(),
-    updatedAt: now.toISOString(),
-    sla: {
-      ...initializeSLAMetrics('MEDIUM', lateTicketDate),
-      isFirstResponseBreached: true,
-      isResolutionBreached: true,
-      firstResponseRemainingMinutes: -120,
-      resolutionRemainingMinutes: -340,
-    },
-  };
-
-  const lateMessages: Message[] = [
-    {
-      id: 'm-324-1',
-      ticketId: 'inc-0324',
-      senderType: 'AGENT',
-      senderId: 'agent-5',
-      senderName: 'David Kumar',
-      type: 'INTERNAL_NOTE',
-      content: 'Root cause for delay: Elastic cluster out-of-memory. Waiting on infrastructure ops team to resize node volume.',
-      createdAt: new Date(now.getTime() - 20 * 60 * 60 * 1000).toISOString(),
-    },
-  ];
-
-  return {
-    agents: ARVO_AGENTS,
-    tickets: [friTicket, waitingTicket, lateTicket, inc291Ticket, inc304Ticket, inc318Ticket],
-    messages: [...inc291Messages, ...inc304Messages, ...inc318Messages, ...waitingMessages, ...lateMessages],
-    auditEvents: [...inc291Audit, ...inc304Audit, ...inc318Audit],
-  };
+  return JSON.parse(JSON.stringify(seedsData)) as DatabaseSchema;
 }
 
 class Database {
   private data: DatabaseSchema;
+  private sqlite: any = null;
 
   constructor() {
     let loaded: DatabaseSchema | null = null;
@@ -439,6 +79,90 @@ class Database {
     } else {
       this.data = createInitialSeedData();
       this.save();
+    }
+
+    // Initialize local SQLite database
+    this.initSQLite();
+  }
+
+  private initSQLite() {
+    try {
+      const sqlite3 = require('sqlite3');
+      this.sqlite = new sqlite3.Database(SQLITE_FILE, (err: any) => {
+        if (err) console.warn('SQLite connection note:', err.message);
+      });
+
+      this.sqlite.serialize(() => {
+        this.sqlite.run(`
+          CREATE TABLE IF NOT EXISTS tickets (
+            id TEXT PRIMARY KEY,
+            ticketNumber TEXT UNIQUE NOT NULL,
+            title TEXT NOT NULL,
+            description TEXT NOT NULL,
+            priority TEXT NOT NULL,
+            status TEXT NOT NULL,
+            customerName TEXT NOT NULL,
+            customerEmail TEXT NOT NULL,
+            companyName TEXT,
+            assignedToId TEXT,
+            assignedToName TEXT,
+            version INTEGER NOT NULL,
+            createdAt TEXT NOT NULL,
+            updatedAt TEXT NOT NULL,
+            resolvedAt TEXT,
+            closedAt TEXT,
+            slaJson TEXT NOT NULL
+          );
+        `);
+
+        this.sqlite.run(`
+          CREATE TABLE IF NOT EXISTS messages (
+            id TEXT PRIMARY KEY,
+            ticketId TEXT NOT NULL,
+            senderType TEXT NOT NULL,
+            senderId TEXT,
+            senderName TEXT NOT NULL,
+            type TEXT NOT NULL,
+            content TEXT NOT NULL,
+            createdAt TEXT NOT NULL
+          );
+        `);
+
+        this.sqlite.run(`
+          CREATE TABLE IF NOT EXISTS audit_events (
+            id TEXT PRIMARY KEY,
+            ticketId TEXT NOT NULL,
+            action TEXT NOT NULL,
+            actorType TEXT NOT NULL,
+            actorId TEXT,
+            actorName TEXT NOT NULL,
+            detailsJson TEXT NOT NULL,
+            createdAt TEXT NOT NULL
+          );
+        `);
+
+        // Sync initial tickets to SQLite if empty
+        this.sqlite.get('SELECT count(*) as count FROM tickets', (err: any, row: any) => {
+          if (!err && (!row || row.count === 0)) {
+            for (const t of this.data.tickets) {
+              this.sqlite.run(
+                `INSERT OR REPLACE INTO tickets (
+                  id, ticketNumber, title, description, priority, status,
+                  customerName, customerEmail, companyName, assignedToId, assignedToName,
+                  version, createdAt, updatedAt, resolvedAt, closedAt, slaJson
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                [
+                  t.id, t.ticketNumber, t.title, t.description, t.priority, t.status,
+                  t.customerName, t.customerEmail, t.companyName || null, t.assignedToId || null, t.assignedToName || null,
+                  t.version, t.createdAt, t.updatedAt, t.resolvedAt || null, t.closedAt || null, JSON.stringify(t.sla)
+                ]
+              );
+            }
+          }
+        });
+      });
+    } catch (err) {
+      console.warn('SQLite optional fallback:', err);
     }
   }
 
@@ -582,6 +306,15 @@ class Database {
       createdAt: now,
     });
 
+    if (this.sqlite) {
+      try {
+        this.sqlite.run(
+          `UPDATE tickets SET assignedToId = ?, assignedToName = ?, status = ?, version = ?, updatedAt = ? WHERE id = ?`,
+          [ticket.assignedToId, ticket.assignedToName, ticket.status, ticket.version, ticket.updatedAt, ticket.id]
+        );
+      } catch (err) {}
+    }
+
     this.save();
     return { success: true, ticket: this.getTicketById(ticket.id) };
   }
@@ -658,6 +391,20 @@ class Database {
       createdAt: nowIso,
     });
 
+    if (this.sqlite) {
+      try {
+        this.sqlite.run(
+          `INSERT OR REPLACE INTO messages (id, ticketId, senderType, senderId, senderName, type, content, createdAt)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+          [newMessage.id, newMessage.ticketId, newMessage.senderType, newMessage.senderId || null, newMessage.senderName, newMessage.type, newMessage.content, newMessage.createdAt]
+        );
+        this.sqlite.run(
+          `UPDATE tickets SET version = ?, updatedAt = ?, status = ?, slaJson = ? WHERE id = ?`,
+          [ticket.version, ticket.updatedAt, ticket.status, JSON.stringify(ticket.sla), ticket.id]
+        );
+      } catch (err) {}
+    }
+
     this.save();
     return { success: true, message: newMessage };
   }
@@ -728,6 +475,15 @@ class Database {
       createdAt: nowIso,
     });
 
+    if (this.sqlite) {
+      try {
+        this.sqlite.run(
+          `UPDATE tickets SET status = ?, resolvedAt = ?, version = ?, updatedAt = ?, slaJson = ? WHERE id = ?`,
+          [ticket.status, ticket.resolvedAt || null, ticket.version, ticket.updatedAt, JSON.stringify(ticket.sla), ticket.id]
+        );
+      } catch (err) {}
+    }
+
     this.save();
     return { success: true, ticket: this.getTicketById(ticket.id) };
   }
@@ -767,6 +523,15 @@ class Database {
       createdAt: nowIso,
     });
 
+    if (this.sqlite) {
+      try {
+        this.sqlite.run(
+          `UPDATE tickets SET priority = ?, version = ?, updatedAt = ?, slaJson = ? WHERE id = ?`,
+          [ticket.priority, ticket.version, ticket.updatedAt, JSON.stringify(ticket.sla), ticket.id]
+        );
+      } catch (err) {}
+    }
+
     this.save();
     return { success: true, ticket: this.getTicketById(ticket.id) };
   }
@@ -796,8 +561,7 @@ class Database {
     ticket.version += 1;
     ticket.updatedAt = nowIso;
 
-    // Add reopening customer message
-    this.data.messages.push({
+    const reopenMessage: Message = {
       id: `msg-${Date.now()}-reopen`,
       ticketId: ticket.id,
       senderType: 'CUSTOMER',
@@ -805,7 +569,8 @@ class Database {
       type: 'PUBLIC_REPLY',
       content: `[Ticket Reopened by Customer]: ${reason}`,
       createdAt: nowIso,
-    });
+    };
+    this.data.messages.push(reopenMessage);
 
     this.appendAuditEvent({
       id: `aud-${Date.now()}-reopen`,
@@ -817,12 +582,27 @@ class Database {
       createdAt: nowIso,
     });
 
+    if (this.sqlite) {
+      try {
+        this.sqlite.run(
+          `UPDATE tickets SET status = 'IN_PROGRESS', resolvedAt = NULL, version = ?, updatedAt = ? WHERE id = ?`,
+          [ticket.version, ticket.updatedAt, ticket.id]
+        );
+        this.sqlite.run(
+          `INSERT OR REPLACE INTO messages (id, ticketId, senderType, senderName, type, content, createdAt)
+           VALUES (?, ?, ?, ?, ?, ?, ?)`,
+          [reopenMessage.id, reopenMessage.ticketId, reopenMessage.senderType, reopenMessage.senderName, reopenMessage.type, reopenMessage.content, reopenMessage.createdAt]
+        );
+      } catch (err) {}
+    }
+
     this.save();
     return { success: true, ticket: this.getTicketById(ticket.id) };
   }
 
   /**
    * Create a new ticket (customer or agent initiated)
+   * Stored in memory, JSON persistence, and local SQLite database!
    */
   public createTicket(params: {
     title: string;
@@ -835,11 +615,11 @@ class Database {
     actorName?: string;
   }): Ticket {
     const now = new Date();
-    const count = this.data.tickets.length + 325; // Continuous sequence INC-0325...
+    const count = this.data.tickets.length + 340; // Continuous sequence INC-0340...
     const ticketNumber = `INC-0${count}`;
 
     const newTicket: Ticket = {
-      id: `ticket-${Date.now()}`,
+      id: `ticket-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
       ticketNumber,
       title: params.title,
       description: params.description,
@@ -856,7 +636,7 @@ class Database {
 
     this.data.tickets.unshift(newTicket);
 
-    this.appendAuditEvent({
+    const createAuditEvent: AuditEvent = {
       id: `aud-${Date.now()}-create`,
       ticketId: newTicket.id,
       action: 'TICKET_CREATED',
@@ -864,7 +644,28 @@ class Database {
       actorName: params.actorName || params.customerName,
       details: { priority: params.priority, title: params.title },
       createdAt: now.toISOString(),
-    });
+    };
+    this.appendAuditEvent(createAuditEvent);
+
+    // Save to local SQLite database
+    if (this.sqlite) {
+      try {
+        this.sqlite.run(
+          `INSERT OR REPLACE INTO tickets (
+            id, ticketNumber, title, description, priority, status,
+            customerName, customerEmail, companyName, version, createdAt, updatedAt, slaJson
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          [
+            newTicket.id, newTicket.ticketNumber, newTicket.title, newTicket.description,
+            newTicket.priority, newTicket.status, newTicket.customerName, newTicket.customerEmail,
+            newTicket.companyName || null, newTicket.version, newTicket.createdAt, newTicket.updatedAt,
+            JSON.stringify(newTicket.sla)
+          ]
+        );
+      } catch (err) {
+        console.warn('SQLite insert warning:', err);
+      }
+    }
 
     this.save();
     return newTicket;
@@ -876,6 +677,19 @@ class Database {
    */
   private appendAuditEvent(event: AuditEvent): void {
     this.data.auditEvents.push(event);
+
+    if (this.sqlite) {
+      try {
+        this.sqlite.run(
+          `INSERT OR REPLACE INTO audit_events (id, ticketId, action, actorType, actorId, actorName, detailsJson, createdAt)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+          [
+            event.id, event.ticketId, event.action, event.actorType,
+            event.actorId || null, event.actorName, JSON.stringify(event.details), event.createdAt
+          ]
+        );
+      } catch (err) {}
+    }
   }
 
   /**

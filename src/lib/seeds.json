@@ -1,0 +1,1131 @@
+{
+  "agents": [
+    {
+      "id": "agent-1",
+      "name": "Meera Patel",
+      "email": "meera@arvo.com",
+      "role": "SUPPORT_LEAD"
+    },
+    {
+      "id": "agent-2",
+      "name": "Alice Chen",
+      "email": "alice@arvo.com",
+      "role": "SUPPORT_AGENT"
+    },
+    {
+      "id": "agent-3",
+      "name": "Bob Miller",
+      "email": "bob@arvo.com",
+      "role": "SUPPORT_AGENT"
+    },
+    {
+      "id": "agent-4",
+      "name": "Charlie Davis",
+      "email": "charlie@arvo.com",
+      "role": "SUPPORT_AGENT"
+    },
+    {
+      "id": "agent-5",
+      "name": "David Kumar",
+      "email": "david@arvo.com",
+      "role": "SUPPORT_AGENT"
+    },
+    {
+      "id": "agent-6",
+      "name": "Elena Rostova",
+      "email": "elena@arvo.com",
+      "role": "SUPPORT_AGENT"
+    },
+    {
+      "id": "agent-7",
+      "name": "Farhan Ahmed",
+      "email": "farhan@arvo.com",
+      "role": "SUPPORT_AGENT"
+    },
+    {
+      "id": "agent-8",
+      "name": "Grace Hopper",
+      "email": "grace@arvo.com",
+      "role": "SUPPORT_AGENT"
+    },
+    {
+      "id": "agent-9",
+      "name": "Henry Clark",
+      "email": "henry@arvo.com",
+      "role": "SUPPORT_AGENT"
+    }
+  ],
+  "tickets": [
+    {
+      "id": "ticket-1795269212377",
+      "ticketNumber": "INC-0339",
+      "title": "API latency spike",
+      "description": "Latencies jumped to 4 seconds",
+      "priority": "URGENT",
+      "status": "DONE",
+      "customerName": "Latency Watch",
+      "customerEmail": "dev@latencywatch.com",
+      "version": 4,
+      "createdAt": "2026-11-21T13:53:32.377Z",
+      "updatedAt": "2026-11-21T13:53:32.379Z",
+      "sla": {
+        "firstResponseDueAt": "2026-11-23T06:00:00.000Z",
+        "resolutionDueAt": "2026-11-23T13:00:00.000Z",
+        "isFirstResponseBreached": false,
+        "isResolutionBreached": false,
+        "firstResponseRemainingMinutes": 120,
+        "resolutionRemainingMinutes": 540,
+        "isPaused": false,
+        "totalPausedBusinessMinutes": 0,
+        "firstRespondedAt": "2026-11-21T13:53:32.378Z",
+        "resolvedAt": "2026-11-21T13:53:32.379Z"
+      },
+      "assignedToId": "agent-1",
+      "assignedToName": "Meera Patel",
+      "resolvedAt": "2026-11-21T13:53:32.379Z"
+    },
+    {
+      "id": "ticket-1795269212374",
+      "ticketNumber": "INC-0338",
+      "title": "Data warehouse export request",
+      "description": "Export all analytics data",
+      "priority": "MEDIUM",
+      "status": "IN_PROGRESS",
+      "customerName": "Difficult Client Corp",
+      "customerEmail": "boss@difficult.com",
+      "version": 4,
+      "createdAt": "2026-11-21T13:53:32.374Z",
+      "updatedAt": "2026-11-21T13:54:22.632Z",
+      "sla": {
+        "firstResponseDueAt": "2026-11-23T08:30:00.000Z",
+        "resolutionDueAt": "2026-11-25T13:00:00.000Z",
+        "isFirstResponseBreached": false,
+        "isResolutionBreached": false,
+        "firstResponseRemainingMinutes": 270,
+        "resolutionRemainingMinutes": 1620,
+        "isPaused": false,
+        "totalPausedBusinessMinutes": 0,
+        "firstRespondedAt": "2026-11-21T13:53:32.376Z"
+      },
+      "assignedToId": "agent-1",
+      "assignedToName": "Meera Patel"
+    },
+    {
+      "id": "ticket-1795269212369",
+      "ticketNumber": "INC-0337",
+      "title": "Billing webhook retry failed",
+      "description": "Customer reports 504 on invoice generation",
+      "priority": "URGENT",
+      "status": "IN_PROGRESS",
+      "customerName": "Stripe Merchant Co",
+      "customerEmail": "finance@merchant.com",
+      "version": 2,
+      "createdAt": "2026-11-21T13:53:32.369Z",
+      "updatedAt": "2026-11-21T13:53:32.372Z",
+      "sla": {
+        "firstResponseDueAt": "2026-11-23T06:00:00.000Z",
+        "resolutionDueAt": "2026-11-23T13:00:00.000Z",
+        "isFirstResponseBreached": false,
+        "isResolutionBreached": false,
+        "firstResponseRemainingMinutes": 120,
+        "resolutionRemainingMinutes": 540,
+        "isPaused": false,
+        "totalPausedBusinessMinutes": 0
+      },
+      "assignedToId": "agent-2",
+      "assignedToName": "Alice Chen"
+    },
+    {
+      "id": "ticket-1795268920835",
+      "ticketNumber": "INC-0336",
+      "title": "API latency spike",
+      "description": "Latencies jumped to 4 seconds",
+      "priority": "URGENT",
+      "status": "DONE",
+      "customerName": "Latency Watch",
+      "customerEmail": "dev@latencywatch.com",
+      "version": 4,
+      "createdAt": "2026-11-21T13:48:40.835Z",
+      "updatedAt": "2026-11-21T13:48:40.842Z",
+      "sla": {
+        "firstResponseDueAt": "2026-11-23T06:00:00.000Z",
+        "resolutionDueAt": "2026-11-23T13:00:00.000Z",
+        "isFirstResponseBreached": false,
+        "isResolutionBreached": false,
+        "firstResponseRemainingMinutes": 120,
+        "resolutionRemainingMinutes": 540,
+        "isPaused": false,
+        "totalPausedBusinessMinutes": 0,
+        "firstRespondedAt": "2026-11-21T13:48:40.839Z",
+        "resolvedAt": "2026-11-21T13:48:40.842Z"
+      },
+      "assignedToId": "agent-1",
+      "assignedToName": "Meera Patel",
+      "resolvedAt": "2026-11-21T13:48:40.842Z"
+    },
+    {
+      "id": "ticket-1795268920827",
+      "ticketNumber": "INC-0335",
+      "title": "Data warehouse export request",
+      "description": "Export all analytics data",
+      "priority": "MEDIUM",
+      "status": "OPEN",
+      "customerName": "Difficult Client Corp",
+      "customerEmail": "boss@difficult.com",
+      "version": 3,
+      "createdAt": "2026-11-21T13:48:40.827Z",
+      "updatedAt": "2026-11-21T13:48:40.832Z",
+      "sla": {
+        "firstResponseDueAt": "2026-11-23T08:30:00.000Z",
+        "resolutionDueAt": "2026-11-25T13:00:00.000Z",
+        "isFirstResponseBreached": false,
+        "isResolutionBreached": false,
+        "firstResponseRemainingMinutes": 270,
+        "resolutionRemainingMinutes": 1620,
+        "isPaused": false,
+        "totalPausedBusinessMinutes": 0,
+        "firstRespondedAt": "2026-11-21T13:48:40.832Z"
+      }
+    },
+    {
+      "id": "ticket-1795268920814",
+      "ticketNumber": "INC-0334",
+      "title": "Billing webhook retry failed",
+      "description": "Customer reports 504 on invoice generation",
+      "priority": "URGENT",
+      "status": "IN_PROGRESS",
+      "customerName": "Stripe Merchant Co",
+      "customerEmail": "finance@merchant.com",
+      "version": 2,
+      "createdAt": "2026-11-21T13:48:40.814Z",
+      "updatedAt": "2026-11-21T13:48:40.821Z",
+      "sla": {
+        "firstResponseDueAt": "2026-11-23T06:00:00.000Z",
+        "resolutionDueAt": "2026-11-23T13:00:00.000Z",
+        "isFirstResponseBreached": false,
+        "isResolutionBreached": false,
+        "firstResponseRemainingMinutes": 120,
+        "resolutionRemainingMinutes": 540,
+        "isPaused": false,
+        "totalPausedBusinessMinutes": 0
+      },
+      "assignedToId": "agent-2",
+      "assignedToName": "Alice Chen"
+    },
+    {
+      "id": "ticket-1795268344708",
+      "ticketNumber": "INC-0333",
+      "title": "API latency spike",
+      "description": "Latencies jumped to 4 seconds",
+      "priority": "URGENT",
+      "status": "DONE",
+      "customerName": "Latency Watch",
+      "customerEmail": "dev@latencywatch.com",
+      "version": 4,
+      "createdAt": "2026-11-21T13:39:04.708Z",
+      "updatedAt": "2026-11-21T13:39:04.716Z",
+      "sla": {
+        "firstResponseDueAt": "2026-11-23T06:00:00.000Z",
+        "resolutionDueAt": "2026-11-23T13:00:00.000Z",
+        "isFirstResponseBreached": false,
+        "isResolutionBreached": false,
+        "firstResponseRemainingMinutes": 120,
+        "resolutionRemainingMinutes": 540,
+        "isPaused": false,
+        "totalPausedBusinessMinutes": 0,
+        "firstRespondedAt": "2026-11-21T13:39:04.714Z",
+        "resolvedAt": "2026-11-21T13:39:04.716Z"
+      },
+      "assignedToId": "agent-1",
+      "assignedToName": "Meera Patel",
+      "resolvedAt": "2026-11-21T13:39:04.716Z"
+    },
+    {
+      "id": "ticket-1795268344701",
+      "ticketNumber": "INC-0332",
+      "title": "Data warehouse export request",
+      "description": "Export all analytics data",
+      "priority": "MEDIUM",
+      "status": "OPEN",
+      "customerName": "Difficult Client Corp",
+      "customerEmail": "boss@difficult.com",
+      "version": 3,
+      "createdAt": "2026-11-21T13:39:04.701Z",
+      "updatedAt": "2026-11-21T13:39:04.704Z",
+      "sla": {
+        "firstResponseDueAt": "2026-11-23T08:30:00.000Z",
+        "resolutionDueAt": "2026-11-25T13:00:00.000Z",
+        "isFirstResponseBreached": false,
+        "isResolutionBreached": false,
+        "firstResponseRemainingMinutes": 270,
+        "resolutionRemainingMinutes": 1620,
+        "isPaused": false,
+        "totalPausedBusinessMinutes": 0,
+        "firstRespondedAt": "2026-11-21T13:39:04.704Z"
+      }
+    },
+    {
+      "id": "ticket-1795268344688",
+      "ticketNumber": "INC-0331",
+      "title": "Billing webhook retry failed",
+      "description": "Customer reports 504 on invoice generation",
+      "priority": "URGENT",
+      "status": "IN_PROGRESS",
+      "customerName": "Stripe Merchant Co",
+      "customerEmail": "finance@merchant.com",
+      "version": 2,
+      "createdAt": "2026-11-21T13:39:04.688Z",
+      "updatedAt": "2026-11-21T13:39:04.694Z",
+      "sla": {
+        "firstResponseDueAt": "2026-11-23T06:00:00.000Z",
+        "resolutionDueAt": "2026-11-23T13:00:00.000Z",
+        "isFirstResponseBreached": false,
+        "isResolutionBreached": false,
+        "firstResponseRemainingMinutes": 120,
+        "resolutionRemainingMinutes": 540,
+        "isPaused": false,
+        "totalPausedBusinessMinutes": 0
+      },
+      "assignedToId": "agent-2",
+      "assignedToName": "Alice Chen"
+    },
+    {
+      "id": "inc-0322",
+      "ticketNumber": "INC-0322",
+      "title": "Payment gateway returning 402 on checkout",
+      "description": "Customers report payment decline during checkout step. Need urgent review.",
+      "priority": "URGENT",
+      "status": "OPEN",
+      "customerName": "QuickKart Online",
+      "customerEmail": "support@quickkart.com",
+      "companyName": "QuickKart Online",
+      "version": 1,
+      "createdAt": "2026-11-20T18:00:00.000Z",
+      "updatedAt": "2026-11-20T18:00:00.000Z",
+      "sla": {
+        "firstResponseDueAt": "2026-11-23T06:00:00.000Z",
+        "resolutionDueAt": "2026-11-23T13:00:00.000Z",
+        "isFirstResponseBreached": false,
+        "isResolutionBreached": false,
+        "firstResponseRemainingMinutes": 120,
+        "resolutionRemainingMinutes": 540,
+        "isPaused": false,
+        "totalPausedBusinessMinutes": 0
+      }
+    },
+    {
+      "id": "inc-0323",
+      "ticketNumber": "INC-0323",
+      "title": "Need API rate limit increase for holiday sale",
+      "description": "We are expecting a 3x traffic spike next week.",
+      "priority": "SMALL",
+      "status": "WAITING_ON_CUSTOMER",
+      "customerName": "Acme Retail",
+      "customerEmail": "infra@acmeretail.com",
+      "companyName": "Acme Retail",
+      "assignedToId": "agent-4",
+      "assignedToName": "Charlie Davis",
+      "version": 2,
+      "createdAt": "2026-11-21T09:39:04.676Z",
+      "updatedAt": "2026-11-21T13:39:04.676Z",
+      "sla": {
+        "firstResponseDueAt": "2026-11-23T13:00:00.000Z",
+        "resolutionDueAt": "2026-11-27T13:00:00.000Z",
+        "isFirstResponseBreached": false,
+        "isResolutionBreached": false,
+        "firstResponseRemainingMinutes": 540,
+        "resolutionRemainingMinutes": 2700,
+        "isPaused": true,
+        "totalPausedBusinessMinutes": 0,
+        "lastPausedAt": "2026-11-21T11:39:04.676Z",
+        "firstRespondedAt": "2026-11-21T11:39:04.676Z"
+      }
+    },
+    {
+      "id": "inc-0324",
+      "ticketNumber": "INC-0324",
+      "title": "Search indexing job stuck in running loop",
+      "description": "Product catalog search results are outdated. Rebuild job has been hanging.",
+      "priority": "MEDIUM",
+      "status": "IN_PROGRESS",
+      "customerName": "MegaStore India",
+      "customerEmail": "devops@megastore.in",
+      "companyName": "MegaStore India",
+      "assignedToId": "agent-5",
+      "assignedToName": "David Kumar",
+      "version": 2,
+      "createdAt": "2026-11-19T13:39:04.676Z",
+      "updatedAt": "2026-11-21T13:39:04.676Z",
+      "sla": {
+        "firstResponseDueAt": "2026-11-20T08:30:00.000Z",
+        "resolutionDueAt": "2026-11-24T13:00:00.000Z",
+        "isFirstResponseBreached": true,
+        "isResolutionBreached": true,
+        "firstResponseRemainingMinutes": -120,
+        "resolutionRemainingMinutes": -340,
+        "isPaused": false,
+        "totalPausedBusinessMinutes": 0
+      }
+    },
+    {
+      "id": "inc-0291",
+      "ticketNumber": "INC-0291",
+      "title": "SSO Login failing for Enterprise workspace",
+      "description": "Our users cannot log in via Okta SAML. Getting 500 error code on callback.",
+      "priority": "URGENT",
+      "status": "IN_PROGRESS",
+      "customerName": "Fintech Cloud Corp",
+      "customerEmail": "it-sec@fintechcloud.com",
+      "companyName": "Fintech Cloud Corp",
+      "assignedToId": "agent-2",
+      "assignedToName": "Alice Chen",
+      "version": 2,
+      "createdAt": "2026-10-14T10:15:00.000Z",
+      "updatedAt": "2026-10-14T10:20:00.000Z",
+      "sla": {
+        "firstResponseDueAt": "2026-10-14T12:15:00.000Z",
+        "resolutionDueAt": "2026-10-14T13:00:00.000Z",
+        "isFirstResponseBreached": false,
+        "isResolutionBreached": false,
+        "firstResponseRemainingMinutes": 120,
+        "resolutionRemainingMinutes": 165,
+        "isPaused": false,
+        "totalPausedBusinessMinutes": 0,
+        "firstRespondedAt": "2026-10-14T10:20:00.000Z"
+      }
+    },
+    {
+      "id": "inc-0304",
+      "ticketNumber": "INC-0304",
+      "title": "Custom export formatting request",
+      "description": "We need CSV reports in European comma-separated format with specific date layout.",
+      "priority": "MEDIUM",
+      "status": "IN_PROGRESS",
+      "customerName": "Global Logistics KG",
+      "customerEmail": "klaus@globallogistics.de",
+      "companyName": "Global Logistics KG",
+      "assignedToId": "agent-3",
+      "assignedToName": "Bob Miller",
+      "version": 2,
+      "createdAt": "2026-10-22T14:00:00.000Z",
+      "updatedAt": "2026-10-22T14:30:00.000Z",
+      "sla": {
+        "firstResponseDueAt": "2026-10-23T08:30:00.000Z",
+        "resolutionDueAt": "2026-10-27T13:00:00.000Z",
+        "isFirstResponseBreached": false,
+        "isResolutionBreached": false,
+        "firstResponseRemainingMinutes": 270,
+        "resolutionRemainingMinutes": 1620,
+        "isPaused": false,
+        "totalPausedBusinessMinutes": 0,
+        "firstRespondedAt": "2026-10-22T14:30:00.000Z"
+      }
+    },
+    {
+      "id": "inc-0318",
+      "ticketNumber": "INC-0318",
+      "title": "Webhook deliveries timing out intermittently",
+      "description": "Webhooks to our production server timed out between 3:45 PM and 4:00 PM.",
+      "priority": "MEDIUM",
+      "status": "DONE",
+      "customerName": "Apex Data Inc",
+      "customerEmail": "ops@apexdata.io",
+      "companyName": "Apex Data Inc",
+      "assignedToId": "agent-1",
+      "assignedToName": "Meera Patel",
+      "version": 3,
+      "createdAt": "2026-11-04T16:00:00.000Z",
+      "updatedAt": "2026-11-04T16:40:00.000Z",
+      "resolvedAt": "2026-11-04T16:40:00.000Z",
+      "sla": {
+        "firstResponseDueAt": "2026-11-05T08:30:00.000Z",
+        "resolutionDueAt": "2026-11-09T13:00:00.000Z",
+        "isFirstResponseBreached": false,
+        "isResolutionBreached": false,
+        "firstResponseRemainingMinutes": 270,
+        "resolutionRemainingMinutes": 1620,
+        "isPaused": false,
+        "totalPausedBusinessMinutes": 0,
+        "firstRespondedAt": "2026-11-04T16:40:00.000Z",
+        "resolvedAt": "2026-11-04T16:40:00.000Z"
+      }
+    }
+  ],
+  "messages": [
+    {
+      "id": "m-291-1",
+      "ticketId": "inc-0291",
+      "senderType": "AGENT",
+      "senderId": "agent-2",
+      "senderName": "Alice Chen",
+      "type": "PUBLIC_REPLY",
+      "content": "Hello, we are investigating the Okta SAML certificate rotation right now. Will update shortly.",
+      "createdAt": "2026-10-14T10:20:00.000Z"
+    },
+    {
+      "id": "m-291-2",
+      "ticketId": "inc-0291",
+      "senderType": "AGENT",
+      "senderId": "agent-2",
+      "senderName": "Alice Chen",
+      "type": "INTERNAL_NOTE",
+      "content": "Note for Meera: Checked the IdP metadata XML, cert expired at midnight. Updating keystore.",
+      "createdAt": "2026-10-14T10:25:00.000Z"
+    },
+    {
+      "id": "m-304-1",
+      "ticketId": "inc-0304",
+      "senderType": "AGENT",
+      "senderId": "agent-3",
+      "senderName": "Bob Miller",
+      "type": "INTERNAL_NOTE",
+      "content": "CONFIDENTIAL TEAM NOTE: Customer is threatening churn if not resolved by Friday. Escalated to Meera and engineering team.",
+      "createdAt": "2026-10-22T14:15:00.000Z"
+    },
+    {
+      "id": "m-304-2",
+      "ticketId": "inc-0304",
+      "senderType": "AGENT",
+      "senderId": "agent-3",
+      "senderName": "Bob Miller",
+      "type": "PUBLIC_REPLY",
+      "content": "Hello Klaus, thank you for reaching out. We have queued the custom locale formatter for our upcoming sprint and will deliver the patch this week.",
+      "createdAt": "2026-10-22T14:30:00.000Z"
+    },
+    {
+      "id": "m-318-1",
+      "ticketId": "inc-0318",
+      "senderType": "AGENT",
+      "senderId": "agent-1",
+      "senderName": "Meera Patel",
+      "type": "PUBLIC_REPLY",
+      "content": "Confirmed webhook queue backlog cleared at 16:38 UTC. All pending events redelivered successfully.",
+      "createdAt": "2026-11-04T16:40:00.000Z"
+    },
+    {
+      "id": "m-323-1",
+      "ticketId": "inc-0323",
+      "senderType": "AGENT",
+      "senderId": "agent-4",
+      "senderName": "Charlie Davis",
+      "type": "PUBLIC_REPLY",
+      "content": "Could you please confirm the specific IP CIDR ranges and projected requests-per-second requirement?",
+      "createdAt": "2026-11-21T11:39:04.676Z"
+    },
+    {
+      "id": "m-324-1",
+      "ticketId": "inc-0324",
+      "senderType": "AGENT",
+      "senderId": "agent-5",
+      "senderName": "David Kumar",
+      "type": "INTERNAL_NOTE",
+      "content": "Root cause for delay: Elastic cluster out-of-memory. Waiting on infrastructure ops team to resize node volume.",
+      "createdAt": "2026-11-20T17:39:04.676Z"
+    },
+    {
+      "id": "msg-1795268344703-tv4k",
+      "ticketId": "ticket-1795268344701",
+      "senderType": "AGENT",
+      "senderId": "agent-1",
+      "senderName": "Meera Patel",
+      "type": "INTERNAL_NOTE",
+      "content": "CONFIDENTIAL: Customer is high churn risk. Do not mention system bug, emphasize scheduled maintenance.",
+      "createdAt": "2026-11-21T13:39:04.703Z"
+    },
+    {
+      "id": "msg-1795268344704-8hzo",
+      "ticketId": "ticket-1795268344701",
+      "senderType": "AGENT",
+      "senderId": "agent-1",
+      "senderName": "Meera Patel",
+      "type": "PUBLIC_REPLY",
+      "content": "Hello, our engineering team is actively preparing your custom export dataset.",
+      "createdAt": "2026-11-21T13:39:04.704Z"
+    },
+    {
+      "id": "msg-1795268344714-gode",
+      "ticketId": "ticket-1795268344708",
+      "senderType": "AGENT",
+      "senderId": "agent-1",
+      "senderName": "Meera Patel",
+      "type": "PUBLIC_REPLY",
+      "content": "We identified a bad query and deployed an index fix. Latencies are back under 80ms.",
+      "createdAt": "2026-11-21T13:39:04.714Z"
+    },
+    {
+      "id": "msg-1795268920830-2fm2",
+      "ticketId": "ticket-1795268920827",
+      "senderType": "AGENT",
+      "senderId": "agent-1",
+      "senderName": "Meera Patel",
+      "type": "INTERNAL_NOTE",
+      "content": "CONFIDENTIAL: Customer is high churn risk. Do not mention system bug, emphasize scheduled maintenance.",
+      "createdAt": "2026-11-21T13:48:40.830Z"
+    },
+    {
+      "id": "msg-1795268920832-223u",
+      "ticketId": "ticket-1795268920827",
+      "senderType": "AGENT",
+      "senderId": "agent-1",
+      "senderName": "Meera Patel",
+      "type": "PUBLIC_REPLY",
+      "content": "Hello, our engineering team is actively preparing your custom export dataset.",
+      "createdAt": "2026-11-21T13:48:40.832Z"
+    },
+    {
+      "id": "msg-1795268920839-jk5v",
+      "ticketId": "ticket-1795268920835",
+      "senderType": "AGENT",
+      "senderId": "agent-1",
+      "senderName": "Meera Patel",
+      "type": "PUBLIC_REPLY",
+      "content": "We identified a bad query and deployed an index fix. Latencies are back under 80ms.",
+      "createdAt": "2026-11-21T13:48:40.839Z"
+    },
+    {
+      "id": "msg-1795269212375-5uu3",
+      "ticketId": "ticket-1795269212374",
+      "senderType": "AGENT",
+      "senderId": "agent-1",
+      "senderName": "Meera Patel",
+      "type": "INTERNAL_NOTE",
+      "content": "CONFIDENTIAL: Customer is high churn risk. Do not mention system bug, emphasize scheduled maintenance.",
+      "createdAt": "2026-11-21T13:53:32.375Z"
+    },
+    {
+      "id": "msg-1795269212376-1xc8",
+      "ticketId": "ticket-1795269212374",
+      "senderType": "AGENT",
+      "senderId": "agent-1",
+      "senderName": "Meera Patel",
+      "type": "PUBLIC_REPLY",
+      "content": "Hello, our engineering team is actively preparing your custom export dataset.",
+      "createdAt": "2026-11-21T13:53:32.376Z"
+    },
+    {
+      "id": "msg-1795269212378-80o5",
+      "ticketId": "ticket-1795269212377",
+      "senderType": "AGENT",
+      "senderId": "agent-1",
+      "senderName": "Meera Patel",
+      "type": "PUBLIC_REPLY",
+      "content": "We identified a bad query and deployed an index fix. Latencies are back under 80ms.",
+      "createdAt": "2026-11-21T13:53:32.378Z"
+    }
+  ],
+  "auditEvents": [
+    {
+      "id": "aud-291-1",
+      "ticketId": "inc-0291",
+      "action": "TICKET_CREATED",
+      "actorType": "CUSTOMER",
+      "actorName": "Fintech Cloud Corp",
+      "details": {
+        "priority": "URGENT"
+      },
+      "createdAt": "2026-10-14T10:15:00.000Z"
+    },
+    {
+      "id": "aud-291-2",
+      "ticketId": "inc-0291",
+      "action": "ASSIGNED",
+      "actorType": "AGENT",
+      "actorId": "agent-2",
+      "actorName": "Alice Chen",
+      "details": {
+        "assignedTo": "Alice Chen",
+        "note": "Claimed via Frontdesk Concurrency Lock"
+      },
+      "createdAt": "2026-10-14T10:18:00.000Z"
+    },
+    {
+      "id": "aud-291-3",
+      "ticketId": "inc-0291",
+      "action": "PUBLIC_REPLY_SENT",
+      "actorType": "AGENT",
+      "actorId": "agent-2",
+      "actorName": "Alice Chen",
+      "details": {
+        "replyLength": 95
+      },
+      "createdAt": "2026-10-14T10:20:00.000Z"
+    },
+    {
+      "id": "aud-291-4",
+      "ticketId": "inc-0291",
+      "action": "INTERNAL_NOTE_ADDED",
+      "actorType": "AGENT",
+      "actorId": "agent-2",
+      "actorName": "Alice Chen",
+      "details": {
+        "isInternal": true
+      },
+      "createdAt": "2026-10-14T10:25:00.000Z"
+    },
+    {
+      "id": "aud-304-1",
+      "ticketId": "inc-0304",
+      "action": "TICKET_CREATED",
+      "actorType": "CUSTOMER",
+      "actorName": "Global Logistics KG",
+      "details": {
+        "priority": "MEDIUM"
+      },
+      "createdAt": "2026-10-22T14:00:00.000Z"
+    },
+    {
+      "id": "aud-304-2",
+      "ticketId": "inc-0304",
+      "action": "ASSIGNED",
+      "actorType": "AGENT",
+      "actorId": "agent-3",
+      "actorName": "Bob Miller",
+      "details": {
+        "assignedTo": "Bob Miller"
+      },
+      "createdAt": "2026-10-22T14:10:00.000Z"
+    },
+    {
+      "id": "aud-304-3",
+      "ticketId": "inc-0304",
+      "action": "INTERNAL_NOTE_ADDED",
+      "actorType": "AGENT",
+      "actorId": "agent-3",
+      "actorName": "Bob Miller",
+      "details": {
+        "isInternal": true
+      },
+      "createdAt": "2026-10-22T14:15:00.000Z"
+    },
+    {
+      "id": "aud-304-4",
+      "ticketId": "inc-0304",
+      "action": "PUBLIC_REPLY_SENT",
+      "actorType": "AGENT",
+      "actorId": "agent-3",
+      "actorName": "Bob Miller",
+      "details": {
+        "replyLength": 145
+      },
+      "createdAt": "2026-10-22T14:30:00.000Z"
+    },
+    {
+      "id": "aud-318-1",
+      "ticketId": "inc-0318",
+      "action": "TICKET_CREATED",
+      "actorType": "CUSTOMER",
+      "actorName": "Apex Data Inc",
+      "details": {
+        "priority": "MEDIUM"
+      },
+      "createdAt": "2026-11-04T16:00:00.000Z"
+    },
+    {
+      "id": "aud-318-2",
+      "ticketId": "inc-0318",
+      "action": "ASSIGNED",
+      "actorType": "AGENT",
+      "actorId": "agent-1",
+      "actorName": "Meera Patel",
+      "details": {
+        "assignedTo": "Meera Patel"
+      },
+      "createdAt": "2026-11-04T16:05:00.000Z"
+    },
+    {
+      "id": "aud-318-3",
+      "ticketId": "inc-0318",
+      "action": "PUBLIC_REPLY_SENT",
+      "actorType": "AGENT",
+      "actorId": "agent-1",
+      "actorName": "Meera Patel",
+      "details": {
+        "responseTimeMinutes": 40,
+        "verifiedTimestamp": "2026-11-04T16:40:00.000Z"
+      },
+      "createdAt": "2026-11-04T16:40:00.000Z"
+    },
+    {
+      "id": "aud-318-4",
+      "ticketId": "inc-0318",
+      "action": "STATUS_CHANGED",
+      "actorType": "AGENT",
+      "actorId": "agent-1",
+      "actorName": "Meera Patel",
+      "details": {
+        "oldStatus": "IN_PROGRESS",
+        "newStatus": "DONE"
+      },
+      "createdAt": "2026-11-04T16:40:00.000Z"
+    },
+    {
+      "id": "aud-1795268344688-create",
+      "ticketId": "ticket-1795268344688",
+      "action": "TICKET_CREATED",
+      "actorType": "CUSTOMER",
+      "actorName": "Stripe Merchant Co",
+      "details": {
+        "priority": "URGENT",
+        "title": "Billing webhook retry failed"
+      },
+      "createdAt": "2026-11-21T13:39:04.688Z"
+    },
+    {
+      "id": "aud-1795268344694-x9qq",
+      "ticketId": "ticket-1795268344688",
+      "action": "ASSIGNED",
+      "actorType": "AGENT",
+      "actorId": "agent-2",
+      "actorName": "Alice Chen",
+      "details": {
+        "assignedToId": "agent-2",
+        "assignedToName": "Alice Chen",
+        "newStatus": "IN_PROGRESS",
+        "version": 2
+      },
+      "createdAt": "2026-11-21T13:39:04.694Z"
+    },
+    {
+      "id": "aud-1795268344701-create",
+      "ticketId": "ticket-1795268344701",
+      "action": "TICKET_CREATED",
+      "actorType": "CUSTOMER",
+      "actorName": "Difficult Client Corp",
+      "details": {
+        "priority": "MEDIUM",
+        "title": "Data warehouse export request"
+      },
+      "createdAt": "2026-11-21T13:39:04.701Z"
+    },
+    {
+      "id": "aud-1795268344703-mhox",
+      "ticketId": "ticket-1795268344701",
+      "action": "INTERNAL_NOTE_ADDED",
+      "actorType": "AGENT",
+      "actorId": "agent-1",
+      "actorName": "Meera Patel",
+      "details": {
+        "isInternal": true,
+        "contentLength": 102
+      },
+      "createdAt": "2026-11-21T13:39:04.703Z"
+    },
+    {
+      "id": "aud-1795268344705-rn65",
+      "ticketId": "ticket-1795268344701",
+      "action": "PUBLIC_REPLY_SENT",
+      "actorType": "AGENT",
+      "actorId": "agent-1",
+      "actorName": "Meera Patel",
+      "details": {
+        "isInternal": false,
+        "contentLength": 77
+      },
+      "createdAt": "2026-11-21T13:39:04.704Z"
+    },
+    {
+      "id": "aud-1795268344708-create",
+      "ticketId": "ticket-1795268344708",
+      "action": "TICKET_CREATED",
+      "actorType": "CUSTOMER",
+      "actorName": "Latency Watch",
+      "details": {
+        "priority": "URGENT",
+        "title": "API latency spike"
+      },
+      "createdAt": "2026-11-21T13:39:04.708Z"
+    },
+    {
+      "id": "aud-1795268344710-j2qp",
+      "ticketId": "ticket-1795268344708",
+      "action": "ASSIGNED",
+      "actorType": "AGENT",
+      "actorId": "agent-1",
+      "actorName": "Meera Patel",
+      "details": {
+        "assignedToId": "agent-1",
+        "assignedToName": "Meera Patel",
+        "newStatus": "IN_PROGRESS",
+        "version": 2
+      },
+      "createdAt": "2026-11-21T13:39:04.710Z"
+    },
+    {
+      "id": "aud-1795268344714-ij6g",
+      "ticketId": "ticket-1795268344708",
+      "action": "PUBLIC_REPLY_SENT",
+      "actorType": "AGENT",
+      "actorId": "agent-1",
+      "actorName": "Meera Patel",
+      "details": {
+        "isInternal": false,
+        "contentLength": 83
+      },
+      "createdAt": "2026-11-21T13:39:04.714Z"
+    },
+    {
+      "id": "aud-1795268344716-status",
+      "ticketId": "ticket-1795268344708",
+      "action": "STATUS_CHANGED",
+      "actorType": "AGENT",
+      "actorId": "agent-1",
+      "actorName": "Meera Patel",
+      "details": {
+        "oldStatus": "IN_PROGRESS",
+        "newStatus": "DONE"
+      },
+      "createdAt": "2026-11-21T13:39:04.716Z"
+    },
+    {
+      "id": "aud-1795268920818-create",
+      "ticketId": "ticket-1795268920814",
+      "action": "TICKET_CREATED",
+      "actorType": "CUSTOMER",
+      "actorName": "Stripe Merchant Co",
+      "details": {
+        "priority": "URGENT",
+        "title": "Billing webhook retry failed"
+      },
+      "createdAt": "2026-11-21T13:48:40.814Z"
+    },
+    {
+      "id": "aud-1795268920821-jfhh",
+      "ticketId": "ticket-1795268920814",
+      "action": "ASSIGNED",
+      "actorType": "AGENT",
+      "actorId": "agent-2",
+      "actorName": "Alice Chen",
+      "details": {
+        "assignedToId": "agent-2",
+        "assignedToName": "Alice Chen",
+        "newStatus": "IN_PROGRESS",
+        "version": 2
+      },
+      "createdAt": "2026-11-21T13:48:40.821Z"
+    },
+    {
+      "id": "aud-1795268920827-create",
+      "ticketId": "ticket-1795268920827",
+      "action": "TICKET_CREATED",
+      "actorType": "CUSTOMER",
+      "actorName": "Difficult Client Corp",
+      "details": {
+        "priority": "MEDIUM",
+        "title": "Data warehouse export request"
+      },
+      "createdAt": "2026-11-21T13:48:40.827Z"
+    },
+    {
+      "id": "aud-1795268920830-qsrw",
+      "ticketId": "ticket-1795268920827",
+      "action": "INTERNAL_NOTE_ADDED",
+      "actorType": "AGENT",
+      "actorId": "agent-1",
+      "actorName": "Meera Patel",
+      "details": {
+        "isInternal": true,
+        "contentLength": 102
+      },
+      "createdAt": "2026-11-21T13:48:40.830Z"
+    },
+    {
+      "id": "aud-1795268920832-i2ck",
+      "ticketId": "ticket-1795268920827",
+      "action": "PUBLIC_REPLY_SENT",
+      "actorType": "AGENT",
+      "actorId": "agent-1",
+      "actorName": "Meera Patel",
+      "details": {
+        "isInternal": false,
+        "contentLength": 77
+      },
+      "createdAt": "2026-11-21T13:48:40.832Z"
+    },
+    {
+      "id": "aud-1795268920835-create",
+      "ticketId": "ticket-1795268920835",
+      "action": "TICKET_CREATED",
+      "actorType": "CUSTOMER",
+      "actorName": "Latency Watch",
+      "details": {
+        "priority": "URGENT",
+        "title": "API latency spike"
+      },
+      "createdAt": "2026-11-21T13:48:40.835Z"
+    },
+    {
+      "id": "aud-1795268920837-x3xz",
+      "ticketId": "ticket-1795268920835",
+      "action": "ASSIGNED",
+      "actorType": "AGENT",
+      "actorId": "agent-1",
+      "actorName": "Meera Patel",
+      "details": {
+        "assignedToId": "agent-1",
+        "assignedToName": "Meera Patel",
+        "newStatus": "IN_PROGRESS",
+        "version": 2
+      },
+      "createdAt": "2026-11-21T13:48:40.837Z"
+    },
+    {
+      "id": "aud-1795268920839-qs30",
+      "ticketId": "ticket-1795268920835",
+      "action": "PUBLIC_REPLY_SENT",
+      "actorType": "AGENT",
+      "actorId": "agent-1",
+      "actorName": "Meera Patel",
+      "details": {
+        "isInternal": false,
+        "contentLength": 83
+      },
+      "createdAt": "2026-11-21T13:48:40.839Z"
+    },
+    {
+      "id": "aud-1795268920842-status",
+      "ticketId": "ticket-1795268920835",
+      "action": "STATUS_CHANGED",
+      "actorType": "AGENT",
+      "actorId": "agent-1",
+      "actorName": "Meera Patel",
+      "details": {
+        "oldStatus": "IN_PROGRESS",
+        "newStatus": "DONE"
+      },
+      "createdAt": "2026-11-21T13:48:40.842Z"
+    },
+    {
+      "id": "aud-1795269212371-create",
+      "ticketId": "ticket-1795269212369",
+      "action": "TICKET_CREATED",
+      "actorType": "CUSTOMER",
+      "actorName": "Stripe Merchant Co",
+      "details": {
+        "priority": "URGENT",
+        "title": "Billing webhook retry failed"
+      },
+      "createdAt": "2026-11-21T13:53:32.369Z"
+    },
+    {
+      "id": "aud-1795269212372-d4j3",
+      "ticketId": "ticket-1795269212369",
+      "action": "ASSIGNED",
+      "actorType": "AGENT",
+      "actorId": "agent-2",
+      "actorName": "Alice Chen",
+      "details": {
+        "assignedToId": "agent-2",
+        "assignedToName": "Alice Chen",
+        "newStatus": "IN_PROGRESS",
+        "version": 2
+      },
+      "createdAt": "2026-11-21T13:53:32.372Z"
+    },
+    {
+      "id": "aud-1795269212374-create",
+      "ticketId": "ticket-1795269212374",
+      "action": "TICKET_CREATED",
+      "actorType": "CUSTOMER",
+      "actorName": "Difficult Client Corp",
+      "details": {
+        "priority": "MEDIUM",
+        "title": "Data warehouse export request"
+      },
+      "createdAt": "2026-11-21T13:53:32.374Z"
+    },
+    {
+      "id": "aud-1795269212375-viyb",
+      "ticketId": "ticket-1795269212374",
+      "action": "INTERNAL_NOTE_ADDED",
+      "actorType": "AGENT",
+      "actorId": "agent-1",
+      "actorName": "Meera Patel",
+      "details": {
+        "isInternal": true,
+        "contentLength": 102
+      },
+      "createdAt": "2026-11-21T13:53:32.375Z"
+    },
+    {
+      "id": "aud-1795269212376-inug",
+      "ticketId": "ticket-1795269212374",
+      "action": "PUBLIC_REPLY_SENT",
+      "actorType": "AGENT",
+      "actorId": "agent-1",
+      "actorName": "Meera Patel",
+      "details": {
+        "isInternal": false,
+        "contentLength": 77
+      },
+      "createdAt": "2026-11-21T13:53:32.376Z"
+    },
+    {
+      "id": "aud-1795269212377-create",
+      "ticketId": "ticket-1795269212377",
+      "action": "TICKET_CREATED",
+      "actorType": "CUSTOMER",
+      "actorName": "Latency Watch",
+      "details": {
+        "priority": "URGENT",
+        "title": "API latency spike"
+      },
+      "createdAt": "2026-11-21T13:53:32.377Z"
+    },
+    {
+      "id": "aud-1795269212378-i7kz",
+      "ticketId": "ticket-1795269212377",
+      "action": "ASSIGNED",
+      "actorType": "AGENT",
+      "actorId": "agent-1",
+      "actorName": "Meera Patel",
+      "details": {
+        "assignedToId": "agent-1",
+        "assignedToName": "Meera Patel",
+        "newStatus": "IN_PROGRESS",
+        "version": 2
+      },
+      "createdAt": "2026-11-21T13:53:32.378Z"
+    },
+    {
+      "id": "aud-1795269212379-z2dw",
+      "ticketId": "ticket-1795269212377",
+      "action": "PUBLIC_REPLY_SENT",
+      "actorType": "AGENT",
+      "actorId": "agent-1",
+      "actorName": "Meera Patel",
+      "details": {
+        "isInternal": false,
+        "contentLength": 83
+      },
+      "createdAt": "2026-11-21T13:53:32.378Z"
+    },
+    {
+      "id": "aud-1795269212379-status",
+      "ticketId": "ticket-1795269212377",
+      "action": "STATUS_CHANGED",
+      "actorType": "AGENT",
+      "actorId": "agent-1",
+      "actorName": "Meera Patel",
+      "details": {
+        "oldStatus": "IN_PROGRESS",
+        "newStatus": "DONE"
+      },
+      "createdAt": "2026-11-21T13:53:32.379Z"
+    },
+    {
+      "id": "aud-1795269262632-v5jp",
+      "ticketId": "ticket-1795269212374",
+      "action": "ASSIGNED",
+      "actorType": "AGENT",
+      "actorId": "agent-1",
+      "actorName": "Meera Patel",
+      "details": {
+        "assignedToId": "agent-1",
+        "assignedToName": "Meera Patel",
+        "newStatus": "IN_PROGRESS",
+        "version": 4
+      },
+      "createdAt": "2026-11-21T13:54:22.632Z"
+    }
+  ]
+}

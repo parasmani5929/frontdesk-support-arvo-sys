@@ -27,5 +27,5 @@ yarn-error.log*
 .env
 
 # data
-/data/*.json
-!/data/seeds.json
+!/data/frontdesk-db.json
+!/data/frontdesk.sqlite
