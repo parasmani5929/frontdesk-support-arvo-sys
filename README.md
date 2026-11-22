@@ -101,8 +101,8 @@ When a ticket is escalated to `URGENT`:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/parasmani5929/frontdesk-support-platform.git
-   cd frontdesk-support-platform
+   git clone https://github.com/parasmani5929/frontdesk-support-arvo-sys.git
+   cd frontdesk-support-arvo-sys
    ```
 
 2. **Install dependencies:**
